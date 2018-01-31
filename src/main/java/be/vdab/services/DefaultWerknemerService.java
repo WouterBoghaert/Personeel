@@ -19,11 +19,11 @@ class DefaultWerknemerService implements WerknemerService {
 		return werknemerRepository.findByChefIsNull();
 	}
 
-	@Override
+/*	@Override
 	public Optional<Werknemer> read(long id) {
 		return Optional.ofNullable(werknemerRepository.findOne(id));
 	}
-
+*/
 	@Override
 	@ModifyingTransactionalServiceMethod
 	public void update(Werknemer werknemer) {
