@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.Valid;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name="jobtitels")
@@ -19,8 +23,11 @@ public class Jobtitel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private long id;
+	@NotBlank
+	@Length(min=1, max= 50)
 	private String naam;
 	@OneToMany(mappedBy = "jobtitel")
+	@Valid
 	private Set<Werknemer> werknemers;
 	@Version
 	private int versie;

@@ -14,6 +14,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.NumberFormat;
 
 @Entity
 @Table(name="werknemers")
@@ -22,18 +31,33 @@ public class Werknemer implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private long id;
+	@NotBlank
+	@Length(min=1, max = 50)
 	private String familienaam;
+	@NotBlank
+	@Length(min=1, max = 50)
 	private String voornaam;
+	@Email
+	@NotBlank
+	@Length(min=1, max = 100)
 	private String email;
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "chefid")
+	@Valid
 	private Werknemer chef;
 	//@Transient
-	@OneToMany(mappedBy = "chef")
-	private Set<Werknemer> ondergeschikten;
+	/*@OneToMany(mappedBy = "chef")
+	@Valid
+	private Set<Werknemer> ondergeschikten;*/
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "jobtitelid")
+	@NotNull
+	@Valid
 	private Jobtitel jobtitel;
+	@NumberFormat(pattern = "#,##0")
+	@NotNull
+	@Digits(integer=10,fraction=2)
+	@DecimalMin("0") //misschien nog eigen annotation van maken!!!
 	private BigDecimal salaris;
 	private int versie;
 	
@@ -57,9 +81,9 @@ public class Werknemer implements Serializable {
 		return chef;
 	}
 	
-	public Set<Werknemer> getOndergeschikten() {
+	/*public Set<Werknemer> getOndergeschikten() {
 		return Collections.unmodifiableSet(ondergeschikten);
-	}
+	}*/
 	
 	public Jobtitel getJobtitel() {
 		return jobtitel;
