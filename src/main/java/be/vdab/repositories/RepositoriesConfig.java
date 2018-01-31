@@ -3,7 +3,6 @@ package be.vdab.repositories;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -14,7 +13,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import be.vdab.entities.Werknemer;
 
 @Configuration
-@ComponentScan
 @EnableJpaRepositories
 public class RepositoriesConfig {
 	@Bean

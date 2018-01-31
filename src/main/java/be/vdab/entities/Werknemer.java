@@ -2,8 +2,6 @@ package be.vdab.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,8 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
@@ -59,7 +58,10 @@ public class Werknemer implements Serializable {
 	@Digits(integer=10,fraction=2)
 	@DecimalMin("0") //misschien nog eigen annotation van maken!!!
 	private BigDecimal salaris;
+	@Version
 	private int versie;
+	@Transient
+	private String naam;
 	
 	public long getId() {
 		return id;
@@ -99,6 +101,10 @@ public class Werknemer implements Serializable {
 	
 	public void geefOpslag(BigDecimal bedrag) {
 		salaris = salaris.add(bedrag);
+	}
+	
+	public String getNaam() {
+		return voornaam + " " + familienaam;
 	}
 
 	@Override
