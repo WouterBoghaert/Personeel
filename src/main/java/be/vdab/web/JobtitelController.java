@@ -37,8 +37,10 @@ class JobtitelController {
 		modelAndView.addObject("jobtitels", jobtitelService.findAll(new Sort("naam")));
 		if(jobtitel != null) {
 			modelAndView.addObject("werknemers", werknemerService.findByJobtitelId(jobtitel.getId()));
+			modelAndView.addObject("jobtitel", jobtitel);
+			return modelAndView;
 		}
-		return modelAndView;
+		return modelAndView.addObject("fout", "Deze jobtitel bestaat niet!");
 	}
 	
 	

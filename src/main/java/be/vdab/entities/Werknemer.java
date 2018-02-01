@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -25,6 +27,8 @@ import be.vdab.constraints.Salaris;
 
 @Entity
 @Table(name="werknemers")
+@NamedEntityGraph(name="Werknemer.metJobtitel",
+	attributeNodes = @NamedAttributeNode("jobtitel"))
 public class Werknemer implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
