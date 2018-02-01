@@ -11,6 +11,4 @@ public interface WerknemerRepository extends JpaRepository<Werknemer, Long> {
 	Optional<Werknemer> findByChefIsNull();
 	List<Werknemer> findByJobtitelId(long id);
 	List<Werknemer> findByChefId(long id);
-	// find chef?
-	
 }

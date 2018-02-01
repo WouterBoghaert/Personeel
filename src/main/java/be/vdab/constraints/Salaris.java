@@ -8,7 +8,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
 import javax.validation.OverridesAttribute;
 import javax.validation.Payload;
 import javax.validation.constraints.DecimalMin;
@@ -16,15 +15,14 @@ import javax.validation.constraints.Digits;
 
 @Retention(RUNTIME)
 @Target({ FIELD, METHOD, ANNOTATION_TYPE })
-@Constraint(validatedBy = {})
-@DecimalMin("1")
+@DecimalMin("0")
 @Digits(integer=10, fraction=2)
-public @interface Opslag {
+public @interface Salaris {
 	@OverridesAttribute.List({
 		@OverridesAttribute(constraint = DecimalMin.class, name="message"),
 		@OverridesAttribute(constraint = Digits.class, name="message")
 	}) 
-	String message() default "{be.vdab.constraints.Opslag}";
+	String message() default "{be.vdab.constraints.Salaris}";
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {}; 
 }

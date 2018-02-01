@@ -2,6 +2,7 @@ package be.vdab.web;
 
 import javax.validation.Valid;
 
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -20,7 +21,10 @@ import be.vdab.services.WerknemerService;
 class WerknemerController {
 	private static final String WERKNEMER_VIEW = "werknemers/werknemer";
 	private static final String OPSLAG_VIEW	= "werknemers/opslag";
-	private static final String REDIRECT_NA_POST_OPSLAG = "redirect:/werknemers/werknemer/{werknemer}";
+	private static final String REDIRECT_NA_POST_OPSLAG = 
+		"redirect:/werknemers/werknemer/{werknemer}";
+	private static final String REDIRECT_NA_LOCKING_EXCEPTION = 
+		"redirect:/werknemers/werknemer/{werknemer}?optimisticlockingexception=true";
 	
 	private final WerknemerService werknemerService;
 	
@@ -74,21 +78,24 @@ class WerknemerController {
 	ModelAndView opslagFormVerwerken(@PathVariable Werknemer werknemer, 
 		@Valid OpslagForm opslagForm, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
-			return opslagForm(werknemer);
+			return new ModelAndView(OPSLAG_VIEW);
 		}
 		if(werknemer != null) {
-			werknemer.geefOpslag(opslagForm.getOpslag());
-			werknemerService.update(werknemer); // checken of nodig, checking voor locking
-			return new ModelAndView(REDIRECT_NA_POST_OPSLAG);
+			if(werknemer.getVersie() == opslagForm.getVersie()) {
+				try {
+					werknemerService.geefOpslag(werknemer, opslagForm.getOpslag()); 
+					return new ModelAndView(REDIRECT_NA_POST_OPSLAG);
+				}
+				catch(ObjectOptimisticLockingFailureException ex) {
+					return new ModelAndView(REDIRECT_NA_LOCKING_EXCEPTION);
+				}
+			}
+			else {
+				return opslagForm(werknemer).addObject("fout", 
+					"De werknemer werd door een andere gebruiker gewijzigd "
+					+ "terwijl u het formulier invulde.");
+			}
 		}
 		return opslagForm(werknemer).addObject("fout","Er is geen correcte werknemer geselecteerd!");
 	}
-	
-	// JSP schrijven voor deze controller, geen foutmelding vergeten geven indien
-			// geen correcte werknemer geselecteerd is. JSoup en SafeHtml gebruiken om 
-			// scripting tegen te gaan. Optimistic record locking doen. Checken indien
-			// save method nodig is voor update, of enkel aanpassen in transactie genoeg is
-			// Spring security nodig? 
-			//@Valid gebruiken in post method
-	// errorpagina's schrijven
 }

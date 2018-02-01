@@ -11,6 +11,9 @@
 	<c:choose>
 		<c:when test="${not empty werknemer}">
 			<h1>Werknemer ${werknemer.naam}</h1>
+			<c:if test="${param.optimisticlockingexception}">
+				<div class="fout">Werknemer werd door een andere gebruiker als volgt gewijzigd:</div>
+			</c:if>
 			<dl>
 				<dt>Voornaam</dt>
 				<dd>${werknemer.voornaam}</dd>

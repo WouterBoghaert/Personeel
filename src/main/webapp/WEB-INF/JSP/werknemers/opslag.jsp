@@ -24,6 +24,7 @@
 			</form:label>
 			<form:input path="opslag" autofocus="autofocus" required="required"
 			min="1" type="number" step="0.01"/>
+			<form:hidden path="versie" value="${werknemer.versie}"/>
 			<input type="submit" value="Opslag" id="opslagKnop">
 			<form:errors cssClass="fout"/>
 		</form:form>		

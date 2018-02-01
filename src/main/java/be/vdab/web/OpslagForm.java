@@ -10,8 +10,13 @@ class OpslagForm {
 	@NotNull
 	@Opslag
 	private BigDecimal opslag;
+	private int versie;
 
 	protected BigDecimal getOpslag() {
 		return opslag;
+	}
+
+	protected int getVersie() {
+		return versie;
 	}
 }

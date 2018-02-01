@@ -1,5 +1,6 @@
 package be.vdab.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,8 @@ class DefaultWerknemerService implements WerknemerService {
 */
 	@Override
 	@ModifyingTransactionalServiceMethod
-	public void update(Werknemer werknemer) {
+	public void geefOpslag(Werknemer werknemer, BigDecimal bedrag) {
+		werknemer.geefOpslag(bedrag);
 		werknemerRepository.save(werknemer);		
 	}
 

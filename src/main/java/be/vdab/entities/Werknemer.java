@@ -14,14 +14,14 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.NumberFormat;
+
+import be.vdab.constraints.Salaris;
 
 @Entity
 @Table(name="werknemers")
@@ -51,8 +51,7 @@ public class Werknemer implements Serializable {
 	private Jobtitel jobtitel;
 	@NumberFormat(pattern = "#,##0.##")
 	@NotNull
-	@Digits(integer=10,fraction=2)
-	@DecimalMin("0") //misschien nog eigen annotation van maken!!!
+	@Salaris
 	private BigDecimal salaris;
 	@Version
 	private int versie;
@@ -95,6 +94,7 @@ public class Werknemer implements Serializable {
 		return versie;
 	}
 	
+
 	public void geefOpslag(BigDecimal bedrag) {
 		salaris = salaris.add(bedrag);
 	}
