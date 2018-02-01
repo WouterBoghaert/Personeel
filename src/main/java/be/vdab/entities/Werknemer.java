@@ -44,16 +44,12 @@ public class Werknemer implements Serializable {
 	@JoinColumn(name = "chefid")
 	@Valid
 	private Werknemer chef;
-	//@Transient
-	/*@OneToMany(mappedBy = "chef")
-	@Valid
-	private Set<Werknemer> ondergeschikten;*/
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "jobtitelid")
 	@NotNull
 	@Valid
 	private Jobtitel jobtitel;
-	@NumberFormat(pattern = "#,##0")
+	@NumberFormat(pattern = "#,##0.##")
 	@NotNull
 	@Digits(integer=10,fraction=2)
 	@DecimalMin("0") //misschien nog eigen annotation van maken!!!
